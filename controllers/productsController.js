@@ -71,8 +71,9 @@ const getProductsByPriceRange = async (req, res) => {
   try {
     const min = req.query.min;
     const max = req.query.max;
-    const selectQuery = `select * from amey.products where price between ${min} and ${max}`;
-    const result = await pool.query(selectQuery);
+    const selectQuery = `select * from amey.products where price between $1 and $2`;
+    const queryValues = [min, max];
+    const result = await pool.query(selectQuery,queryValues);
     if (result.rowCount > 0) {
       return res.status(200).json(result.rows);
     } else {
@@ -87,10 +88,12 @@ const getProductsByPriceRange = async (req, res) => {
 const addProduct = async (req, res) => {
   try {
     const product = req.body;
-    const insertQuery = `INSERT INTO amey.products (product_name, price, category, star_rating, description, product_code, imageurl) VALUES ('${product.product_name}', ${product.price}, '${product.category}', ${product.star_rating}, '${product.description}', '${product.product_code}', '${product.imageurl}')`;
+    const insertQuery = `INSERT INTO amey.products (product_name, price, category, star_rating, description, product_code, imageurl) VALUES ('${product.product_name}', ${product.price}, '${product.category}', ${product.star_rating}, '${product.description}', '${product.product_code}', '${product.imageurl}') RETURNING *`;
     const response = await pool.query(insertQuery);
-    if (response.rowCount == 1) {
-      return res.status(200).json({ message: "Product added successfully" });
+    if (response.rowCount > 0) {
+      return res.status(200).json({ message: "Product added successfully" ,
+        product: response.rows[0]
+      });
     } else {
       return res.status(500).json({ error: "Something went wrong" });
     }

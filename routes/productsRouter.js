@@ -14,12 +14,12 @@ productsRouter.get("/", getProducts);
 
 productsRouter.post("/", addProduct);
 
-productsRouter.get("/:id", getProductsById);
+productsRouter.get("/id/:id", getProductsById);
 
 productsRouter.get("/category", getProductsByCategory);
 
 productsRouter.get("/price", getProductsByPriceRange);
 
-productsRouter.delete("/:id", deleteById);
+productsRouter.delete("/id/:id", deleteById);
 
 export default productsRouter;

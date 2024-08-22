@@ -5,18 +5,21 @@ import {
   getProductsById,
   getProductsByCategory,
   getProductsByPriceRange,
+  addProduct,
 } from "../controllers/productsController.js";
 
 const productsRouter = express.Router();
 
 productsRouter.get("/", getProducts);
 
-productsRouter.get("/id/:id", getProductsById);
+productsRouter.post("/", addProduct);
 
-productsRouter.delete("/id/:id", deleteById);
+productsRouter.get("/:id", getProductsById);
 
 productsRouter.get("/category", getProductsByCategory);
 
 productsRouter.get("/price", getProductsByPriceRange);
+
+productsRouter.delete("/:id", deleteById);
 
 export default productsRouter;

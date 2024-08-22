@@ -68,20 +68,43 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const getProductsByPriceRange = async (req, res) => {
-    try {
-      const min = req.query.min;
-      const max = req.query.max;
-      const selectQuery = `select * from amey.products where price between ${min} and ${max}`;
-      const result = await pool.query(selectQuery);
-      if (result.rowCount > 0) {
-        return res.status(200).json(result.rows);
-      } else {
-        return res.status(404).json({ error: "No products found" });
-      }
-    } catch (error) {
-      console.log("Error Caught " + error?.message);
-      return res.status(500).json({ error: "Internal Error" });
+  try {
+    const min = req.query.min;
+    const max = req.query.max;
+    const selectQuery = `select * from amey.products where price between ${min} and ${max}`;
+    const result = await pool.query(selectQuery);
+    if (result.rowCount > 0) {
+      return res.status(200).json(result.rows);
+    } else {
+      return res.status(404).json({ error: "No products found" });
     }
-  };
+  } catch (error) {
+    console.log("Error Caught " + error?.message);
+    return res.status(500).json({ error: "Internal Error" });
+  }
+};
 
-export { getProducts, getProductsById, deleteById, getProductsByCategory, getProductsByPriceRange };
+const addProduct = async (req, res) => {
+  try {
+    const product = req.body;
+    const insertQuery = `INSERT INTO amey.products (product_name, price, category, star_rating, description, product_code, imageurl) VALUES ('${product.product_name}', ${product.price}, '${product.category}', ${product.star_rating}, '${product.description}', '${product.product_code}', '${product.imageurl}')`;
+    const response = await pool.query(insertQuery);
+    if (response.rowCount == 1) {
+      return res.status(200).json({ message: "Product added successfully" });
+    } else {
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+export {
+  getProducts,
+  getProductsById,
+  deleteById,
+  getProductsByCategory,
+  getProductsByPriceRange,
+  addProduct,
+};

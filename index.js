@@ -28,3 +28,5 @@ app.get("*", getErrorStatus);
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Listening at port number ${port}`));
+
+export default app;

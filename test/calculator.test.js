@@ -1,4 +1,4 @@
-import * as chai from "chai";
+import { expect, assert } from "chai";
 
 import { add, multiply } from "./calculator.js";
 
@@ -21,14 +21,13 @@ describe("Testing Calculator", () => {
     //Act
     const result = add(x, y);
     //Assert
-    chai.expect(result).to.equal(6);
+    expect(result).to.equal(6);
   });
 
-  
   it("should multiply two numbers", () => {
     //Act
     const result = multiply(x, y);
     //Assert
-    chai.expect(result).to.equal(8);
+    expect(result).to.equal(8);
   });
 });

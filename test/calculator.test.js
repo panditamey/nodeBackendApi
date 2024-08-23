@@ -23,4 +23,12 @@ describe("Testing Calculator", () => {
     //Assert
     chai.expect(result).to.equal(6);
   });
+
+  
+  it("should multiply two numbers", () => {
+    //Act
+    const result = multiply(x, y);
+    //Assert
+    chai.expect(result).to.equal(8);
+  });
 });

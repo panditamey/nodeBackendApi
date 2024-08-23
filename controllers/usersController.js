@@ -3,7 +3,6 @@ import pool from "../db/db.js";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 config();
-const SECRET = process.env.JWT_SECRET;
 
 const registerUser = async (req, res) => {
   try {
@@ -32,6 +31,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const SECRET = process.env.JWT_SECRET;
 
     if (!email || !password) {
       return res.status(400).json({ error: "All fields are required" });
@@ -74,4 +74,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser};
+export { registerUser, loginUser };

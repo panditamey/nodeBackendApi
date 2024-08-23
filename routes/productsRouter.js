@@ -7,6 +7,7 @@ import {
   getProductsByPriceRange,
   addProduct,
 } from "../controllers/productsController.js";
+import authenticateToken from "../middlewares/authMiddleware.js";
 
 const productsRouter = express.Router();
 
@@ -20,6 +21,6 @@ productsRouter.get("/category", getProductsByCategory);
 
 productsRouter.get("/price", getProductsByPriceRange);
 
-productsRouter.delete("/id/:id", deleteById);
+productsRouter.delete("/id/:id", authenticateToken, deleteById);
 
 export default productsRouter;

@@ -2,8 +2,10 @@ import pool from "../db/db.js";
 
 const getProducts = async (req, res) => {
   try {
+    if (!pool.connected) {
+      throw new Error('Database connection is not established');
+    }
     const selectProductsQuery = "SELECT * FROM amey.products";
-
     const products = await pool.query(selectProductsQuery);
     if (products.rowCount > 0) {
       return res.status(200).json(products.rows);
@@ -11,8 +13,8 @@ const getProducts = async (req, res) => {
       return res.status(404).json({ error: "No products found" });
     }
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Something went wrong" });
+    console.error('Error occurred while executing query:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
